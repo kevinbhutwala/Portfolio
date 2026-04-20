@@ -9,14 +9,14 @@ const person = {
   role: "Senior React Native Developer",
   avatar: "/images/avatar.jpg",
   email: "kevinbhutwala417@gmail.com",
-  location: "Asia/Kolkata",
+  phone: "+91 8460332500",
+  location: "Surat, Gujarat, India",
+  timezone: "Asia/Kolkata",
   languages: ["English", "Hindi", "Gujarati"],
 };
 
 const newsletter = {
   display: false,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>I occasionally write about mobile development and new trends in React Native.</>,
 };
 
 const social = [
@@ -40,47 +40,29 @@ const social = [
 const home = {
   path: "/",
   image: "/images/og/home.jpg",
-  label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Bringing mobile ideas to life with code and creativity</>,
+  headline: <>Delivering high-performance mobile experiences</>,
   featured: {
     display: true,
-    title: <>Recent project: <strong className="ml-4">Retail Watch App</strong></>,
-    href: "/work/watch-business-retail-app",
+    title: <>Featured Project: <strong className="ml-4">Luminate App</strong></>,
+    href: "/#projects",
   },
   subline: (
     <>
-      I'm Kevin, a React Native developer with 4+ years of experience building cross-platform apps.
-      <br /> I love building sleek, high-performance apps and solving complex UI challenges.
+      I&apos;m a Senior React Native Developer with 5 years of experience delivering high-performance mobile applications. I specialize in scalable architectures, cross-functional leadership, and seamless UI/UX.
     </>
   ),
 };
 
 const about = {
-  path: "/about",
-  label: "About",
-  title: `About – ${person.name}`,
-  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
-  tableOfContent: {
-    display: true,
-    subItems: false,
-  },
-  avatar: {
-    display: true,
-  },
-  calendar: {
-    display: false,
-    link: "",
-  },
+  path: "/#about",
   intro: {
     display: true,
-    title: "Introduction",
+    title: "About Me",
     description: (
       <>
-        Kevin is an experienced React Native developer based in India, passionate about crafting
-        smooth, scalable, and modern mobile applications. He has a strong eye for detail and thrives
-        in startup environments where speed and quality matter.
+        Senior React Native Developer with 5 years of experience delivering high-performance mobile applications. Experienced in leading cross-functional teams, improving delivery efficiency and building scalable architectures that enhance performance and user experience.
       </>
     ),
   },
@@ -89,22 +71,24 @@ const about = {
     title: "Work Experience",
     experiences: [
       {
-        company: "ABC Tech Solutions",
-        timeframe: "2021 - Present",
-        role: "Senior React Native Developer",
+        company: "Artoon Solutions Private Limited",
+        timeframe: "2023 - PRESENT",
+        role: "Senior React-native Developer",
         achievements: [
-          <>Built and maintained 10+ cross-platform apps with 100k+ downloads.</>,
-          <>Led migration to TypeScript and improved developer velocity by 25%.</>,
+          <>Mobile development for flagship applications, resulting in a 30% increase in user engagement and a 20% rise in App Store ratings.</>,
+          <>Led a cross-functional team, providing technical mentorship that improved productivity and achieved a 15% reduction in project delivery time.</>,
+          <>Optimized app architecture, reducing load times by 25% and significantly enhancing user satisfaction through seamless performance.</>,
         ],
         images: [],
       },
       {
-        company: "MobileCraft",
-        timeframe: "2019 - 2021",
-        role: "React Native Developer",
+        company: "Weingenious Technocrats",
+        timeframe: "2021 - 2023",
+        role: "React-native Developer",
         achievements: [
-          <>Optimized performance of large-scale mobile app, improving FPS and load time.</>,
-          <>Collaborated with designers and back-end teams to launch 4 new client apps.</>,
+          <>Contributed to the development of mobile applications by writing clean and maintainable code, implementing new features and resolving bugs.</>,
+          <>Worked closely with senior developers to understand project requirements, share ideas and integrate feedback for continuous learning and improvement.</>,
+          <>Conducted performance optimization and testing to enhance the overall user experience and ensure optimal app functionality across various devices.</>,
         ],
         images: [],
       },
@@ -112,98 +96,119 @@ const about = {
   },
   studies: {
     display: true,
-    title: "Studies",
+    title: "Education",
     institutions: [
       {
-        name: "XYZ Institute of Technology",
-        description: <>Completed Bachelor's in Computer Science.</>,
+        name: "Veer Narmad South Gujarat University, Surat",
+        description: <>Master of Science in Information Technology (MSCIT) | 2017-2021</>,
       },
     ],
   },
   technical: {
     display: true,
-    title: "Technical skills",
+    title: "Technical Skills",
     skills: [
       {
-        title: "React Native",
-        description: <>Built apps for retail, fintech, social platforms using React Native core and Expo.</>,
-        images: [],
+        title: "Languages",
+        description: <>JavaScript (ES6+), TypeScript</>,
       },
       {
-        title: "TypeScript",
-        description: <>Strong experience in TypeScript for React Native and web projects.</>,
-        images: [],
+        title: "Frameworks & Libraries",
+        description: <>React Native, Redux, Redux-toolkit</>,
       },
       {
-        title: "Firebase & REST APIs",
-        description: <>Integrated real-time databases, auth, and push notifications in multiple apps.</>,
-        images: [],
+        title: "Backend & Integration",
+        description: <>REST API Integration, Socket.io, Firebase, Unity Integration</>,
+      },
+      {
+        title: "Tools",
+        description: <>Version Control (Git), UI/UX Design Principles, Performance Optimization</>,
       },
     ],
   },
 };
 
-const blog = {
-  path: "/blog",
-  label: "Blog",
-  title: "Sharing thoughts on mobile tech...",
-  description: `Read what ${person.name} has been building and learning recently.`,
-};
+const projects = [
+  {
+    title: "SUPERWORKS HRMS",
+    timeframe: "2022 - Present",
+    summary: "Cloud HR software for streamlining attendance, leave requests, payroll management, and real-time operational analytics.",
+    images: [],
+    link: "https://apps.apple.com/in/app/superworks-hrms/id1599503135",
+    team: [],
+  },
+  {
+    title: "Super Chat Mobile",
+    timeframe: "2021 - Present",
+    summary: "Live communication app for organizations offering secure direct and group messaging, project collaboration, and push notifications.",
+    images: [],
+    link: "https://apps.apple.com/in/app/super-chat-mobile/id1559684141",
+    team: [],
+  },
+  {
+    title: "Luminate",
+    timeframe: "01/01/2026 - Present",
+    summary: "Auth, interactive feed, multimedia Stories, WebRTC group chats. React Native, Redux, Typescript, CSS, Socket, Firebase.",
+    images: [],
+    link: "",
+    team: [],
+  },
+  {
+    title: "MAJX",
+    timeframe: "02/02/25 - 10/12/2025",
+    summary: "Real-Money Gaming App with Unity engine integration seamlessly launching games. RN, Redux, TypeScript, Socket, Firebase.",
+    images: [],
+    link: "https://majx.bet/",
+    team: [],
+  },
+  {
+    title: "Nexaura",
+    timeframe: "06/05/25 - Present",
+    summary: "AI-powered platform providing intelligent automation, business insights, and enhanced user engagement.",
+    images: [],
+    link: "https://nexaura.ai/",
+    team: [],
+  },
+  {
+    title: "SpingrBook",
+    timeframe: "09/01/24 - 01/01/25",
+    summary: "Integrated contacts, phonebook, business card exchange, chat, and calendar. Custom React Native & Node Sockets.",
+    images: [],
+    link: "",
+    team: [],
+  },
+  {
+    title: "Mentor Pilot",
+    timeframe: "10/01/23 - 02/01/24",
+    summary: "Platform for pre-established student and professional mentor pairs designed to enhance academic excellence.",
+    images: [],
+    link: "https://apps.apple.com/us/app/imentor/id6470259178",
+    team: [],
+  },
+  {
+    title: "THREE Plus Games",
+    timeframe: "02/01/23 - 10/01/23",
+    summary: "Gaming app delivering a new style of e-sports gaming with excitement and real rewards.",
+    images: [],
+    link: "https://play.3plusgames.com/now",
+    team: [],
+  },
+  {
+    title: "Tailorify",
+    timeframe: "02/01/22 - 01/01/23",
+    summary: "App for tailors & fashion designers to manage customers, orders, payments, measurements in one place.",
+    images: [],
+    link: "https://play.google.com/store/apps/details?id=com.tailorify&hl=en_IN",
+    team: [],
+  },
+  {
+    title: "Store App",
+    timeframe: "07/01/21 - 02/01/22",
+    summary: "E-commerce app for Android and iOS providing products browsing and orders handling.",
+    images: [],
+    link: "",
+    team: [],
+  }
+];
 
-const work = {
-  path: "/work",
-  label: "Work",
-  title: `Projects – ${person.name}`,
-  description: `A collection of apps and experiments by ${person.name}`,
-};
-
-const gallery = {
-  path: "/gallery",
-  label: "Gallery",
-  title: `Snapshots – ${person.name}`,
-  description: `A collection of screenshots and moments from my work life`,
-  images: [
-    {
-      src: "/images/gallery/horizontal-1.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/horizontal-2.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/horizontal-3.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/horizontal-4.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/vertical-1.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-2.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-3.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-4.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-  ],
-};
-
-export { person, social, newsletter, home, about, blog, work, gallery };
+export { person, social, newsletter, home, about, projects };
