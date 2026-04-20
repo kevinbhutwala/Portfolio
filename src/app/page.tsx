@@ -73,7 +73,7 @@ export default function Home() {
               <div className="profile-pill hover-card-3d" style={{ padding: '8px 24px 8px 8px', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', width: 'fit-content', marginBottom: '8px' }}>
                 <img src={person.avatar} alt={person.name} style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--neon-cyan)', boxShadow: '0 0 15px rgba(0,216,255,0.5)' }} />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <Text variant="label-default-s" style={{ color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Hi, I'm</Text>
+                  <Text variant="label-default-s" style={{ color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Hi, I&apos;m</Text>
                   <Text variant="heading-strong-l" style={{ color: '#fff', fontWeight: 800, background: 'linear-gradient(90deg, #fff, #ccc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{person.name}</Text>
                 </div>
               </div>
