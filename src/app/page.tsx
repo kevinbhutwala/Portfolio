@@ -8,9 +8,6 @@ const INITIAL_SNAKE = [{ x: 7, y: 7 }, { x: 7, y: 8 }];
 const INITIAL_DIRECTION = { x: 0, y: -1 };
 
 const PlayableMockup = () => {
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
   // Snake State
   const [snake, setSnake] = useState(INITIAL_SNAKE);
   const [direction, setDirection] = useState(INITIAL_DIRECTION);
@@ -66,38 +63,15 @@ const PlayableMockup = () => {
     }
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -15;
-    const rotateY = ((x - centerX) / centerX) * 15;
-    setRotation({ x: rotateX, y: rotateY });
-  };
-
   return (
     <div
       className="floating-mockup-wrapper"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => {
-        setIsHovering(false);
-        setRotation({ x: 0, y: 0 });
-      }}
       style={{ perspective: '1000px' }}
     >
       <div 
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        className={isHovering ? "interactive-phone-frame active-tilt" : "interactive-phone-frame"}
-        style={{
-          transform: isHovering 
-            ? `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale3d(1.05, 1.05, 1.05)` 
-            : '',
-          transition: isHovering ? 'transform 0.1s ease-out' : 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-        }}
+        className="interactive-phone-frame"
       >
         <div className="phone-notch" />
         <div className="phone-screen">
@@ -419,11 +393,10 @@ export default function Home() {
           background: #050510;
           border-radius: 40px;
           border: 8px solid #1a1a2e;
-          box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,216,255,0.2);
+          box-shadow: 0 40px 80px rgba(0,216,255,0.1), inset 0 0 15px rgba(0,216,255,0.2);
           position: relative;
           z-index: 2;
           overflow: hidden;
-          animation: float 6s ease-in-out infinite;
           outline: none;
           cursor: pointer;
         }
