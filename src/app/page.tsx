@@ -3,21 +3,77 @@ import React, { useEffect, useState } from "react";
 import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row } from "@/once-ui/components";
 import { home, about, person, projects } from "@/app/resources/content";
 
+const GRID_SIZE = 15;
+const INITIAL_SNAKE = [{ x: 7, y: 7 }, { x: 7, y: 8 }];
+const INITIAL_DIRECTION = { x: 0, y: -1 };
+
 const PlayableMockup = () => {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+
+  // Snake State
+  const [snake, setSnake] = useState(INITIAL_SNAKE);
+  const [direction, setDirection] = useState(INITIAL_DIRECTION);
+  const [food, setFood] = useState({ x: 4, y: 4 });
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
+
+  const startGame = React.useCallback(() => {
+    setSnake(INITIAL_SNAKE);
+    setDirection(INITIAL_DIRECTION);
+    setFood({ x: Math.floor(Math.random() * GRID_SIZE), y: Math.floor(Math.random() * GRID_SIZE) });
+    setScore(0);
+    setGameOver(false);
+    setGameStarted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!gameStarted || gameOver) return;
+    const moveSnake = () => {
+      setSnake((prev) => {
+        const head = prev[0];
+        const newHead = { x: head.x + direction.x, y: head.y + direction.y };
+
+        // Collisions
+        if (newHead.x < 0 || newHead.x >= GRID_SIZE || newHead.y < 0 || newHead.y >= GRID_SIZE || prev.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
+          setGameOver(true);
+          return prev;
+        }
+
+        const newSnake = [newHead, ...prev];
+        if (newHead.x === food.x && newHead.y === food.y) {
+          setScore(s => s + 10);
+          setFood({ x: Math.floor(Math.random() * GRID_SIZE), y: Math.floor(Math.random() * GRID_SIZE) });
+        } else {
+          newSnake.pop();
+        }
+        return newSnake;
+      });
+    };
+
+    const intervalId = setInterval(moveSnake, Math.max(80, 200 - score * 2));
+    return () => clearInterval(intervalId);
+  }, [direction, gameStarted, gameOver, food, score]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!gameStarted || gameOver) return;
+    switch(e.key) {
+      case 'ArrowUp': e.preventDefault(); if (direction.y === 0) setDirection({x: 0, y: -1}); break;
+      case 'ArrowDown': e.preventDefault(); if (direction.y === 0) setDirection({x: 0, y: 1}); break;
+      case 'ArrowLeft': e.preventDefault(); if (direction.x === 0) setDirection({x: -1, y: 0}); break;
+      case 'ArrowRight': e.preventDefault(); if (direction.x === 0) setDirection({x: 1, y: 0}); break;
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
-    // Calculate rotation (-20 to 20 degrees) based on mouse position
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -20;
-    const rotateY = ((x - centerX) / centerX) * 20;
-
+    const rotateX = ((y - centerY) / centerY) * -15;
+    const rotateY = ((x - centerX) / centerX) * 15;
     setRotation({ x: rotateX, y: rotateY });
   };
 
@@ -28,26 +84,64 @@ const PlayableMockup = () => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => {
         setIsHovering(false);
-        setRotation({ x: 0, y: 0 }); // reset
+        setRotation({ x: 0, y: 0 });
       }}
-      style={{
-        perspective: '1000px',
-        cursor: 'grab'
-      }}
-      onMouseDown={(e) => e.currentTarget.style.cursor = 'grabbing'}
-      onMouseUp={(e) => e.currentTarget.style.cursor = 'grab'}
+      style={{ perspective: '1000px' }}
     >
-      <img
-        src="/images/mobile_mockup.png"
-        alt="Interactive App Mockup"
-        className={isHovering ? "interactive-mockup" : "floating-mockup"}
+      <div 
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        className={isHovering ? "interactive-phone-frame active-tilt" : "interactive-phone-frame"}
         style={{
-          transform: isHovering
-            ? `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale3d(1.05, 1.05, 1.05)`
+          transform: isHovering 
+            ? `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale3d(1.05, 1.05, 1.05)` 
             : '',
-          transition: isHovering ? 'transform 0.1s ease-out' : 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+          transition: isHovering ? 'transform 0.1s ease-out' : 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
         }}
-      />
+      >
+        <div className="phone-notch" />
+        <div className="phone-screen">
+          <div className="game-header">
+            <span style={{ color: '#00d8ff', fontWeight: 'bold' }}>SCORE:{score}</span>
+            <span style={{ color: '#7f00ff' }}>CYBER SNAKE</span>
+          </div>
+          <div className="game-grid">
+            {!gameStarted && !gameOver && (
+              <div className="game-overlay">
+                <div className="glowing-btn" onClick={startGame}>PLAY NOW</div>
+              </div>
+            )}
+            {gameOver && (
+              <div className="game-overlay">
+                <span style={{ color: '#ff3366', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '10px', textShadow: '0 0 10px #ff3366' }}>GAME OVER</span>
+                <div className="glowing-btn" onClick={startGame}>RETRY</div>
+              </div>
+            )}
+            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`, gridTemplateRows: `repeat(${GRID_SIZE}, 1fr)`, width: '100%', height: '100%', gap: '1px' }}>
+              {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, i) => {
+                const x = i % GRID_SIZE;
+                const y = Math.floor(i / GRID_SIZE);
+                const isSnake = snake.some(s => s.x === x && s.y === y);
+                const isHead = snake[0].x === x && snake[0].y === y;
+                const isFood = food.x === x && food.y === y;
+                let cellClass = "game-cell";
+                if (isHead) cellClass += " snake-head";
+                else if (isSnake) cellClass += " snake-body";
+                else if (isFood) cellClass += " snake-food";
+                return <div key={i} className={cellClass} />
+              })}
+            </div>
+          </div>
+          <div className="mobile-controls">
+            <div className="d-pad up" onClick={() => { if (direction.y === 0) setDirection({x: 0, y: -1})}}>▲</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className="d-pad left" onClick={() => { if (direction.x === 0) setDirection({x: -1, y: 0})}}>◀</div>
+              <div className="d-pad right" onClick={() => { if (direction.x === 0) setDirection({x: 1, y: 0})}}>▶</div>
+            </div>
+            <div className="d-pad down" onClick={() => { if (direction.y === 0) setDirection({x: 0, y: 1})}}>▼</div>
+          </div>
+        </div>
+      </div>
       <div className="glow-behind-mockup" />
     </div>
   );
@@ -318,54 +412,87 @@ export default function Home() {
           100% { transform: rotate(360deg); }
         }
 
-        /* Floating Mockup */
-        .floating-mockup-wrapper {
+        /* Playable Mockup CSS */
+        .interactive-phone-frame {
+          width: 280px;
+          height: 560px;
+          background: #050510;
+          border-radius: 40px;
+          border: 8px solid #1a1a2e;
+          box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,216,255,0.2);
           position: relative;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .floating-mockup {
-          width: 100%;
-          max-width: 400px;
-          height: auto;
-          animation: float 6s ease-in-out infinite;
           z-index: 2;
-          border-radius: 30px;
-          box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+          overflow: hidden;
+          animation: float 6s ease-in-out infinite;
+          outline: none;
+          cursor: pointer;
         }
-
-        .interactive-mockup {
-          width: 100%;
-          max-width: 400px;
-          height: auto;
-          z-index: 3;
-          border-radius: 30px;
-          box-shadow: 0 40px 80px rgba(0,216,255,0.3), 0 0 60px rgba(127,0,255,0.2);
+        .interactive-phone-frame.active-tilt {
+          animation: none;
+          box-shadow: 0 40px 80px rgba(0,216,255,0.3), 0 0 60px rgba(127,0,255,0.2), inset 0 0 20px rgba(255,255,255,0.2);
+          border-color: rgba(255,255,255,0.1);
         }
-
-        .glow-behind-mockup {
+        .phone-notch {
           position: absolute;
-          width: 80%;
-          height: 80%;
+          top: 0; left: 50%; transform: translateX(-50%);
+          width: 100px; height: 25px;
+          background: #1a1a2e;
+          border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+          z-index: 10;
+        }
+        .phone-screen {
+          position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+          background: radial-gradient(circle at center, #111, #000);
+          display: flex; flex-direction: column;
+        }
+        .game-header {
+          padding: 35px 20px 10px; display: flex; justify-content: space-between;
+          font-family: monospace; font-size: 0.9rem;
+          border-bottom: 1px solid rgba(0,216,255,0.2); background: rgba(0,0,0,0.5);
+        }
+        .game-grid {
+          flex: 1; position: relative; padding: 15px;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .game-cell { border-radius: 2px; }
+        .snake-head { background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); z-index: 2; position: relative; }
+        .snake-body { background: rgba(0, 216, 255, 0.5); }
+        .snake-food { background: var(--neon-violet); box-shadow: 0 0 15px var(--neon-violet); border-radius: 50%; }
+        .game-overlay {
+          position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.7); display: flex; flex-direction: column;
+          align-items: center; justify-content: center; z-index: 5; backdrop-filter: blur(4px);
+        }
+        .glowing-btn {
+          padding: 10px 24px; background: linear-gradient(90deg, #00d8ff, #7f00ff);
+          color: white; font-weight: bold; border-radius: 100px; cursor: pointer;
+          font-size: 0.8rem; letter-spacing: 2px; transition: all 0.2s;
+        }
+        .glowing-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(0,216,255,0.6); }
+        .mobile-controls {
+          padding: 10px 30px 20px; display: flex; flex-direction: column; gap: 8px;
+        }
+        .d-pad {
+          background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 10px; display: flex; align-items: center; justify-content: center;
+          height: 45px; color: rgba(255,255,255,0.3); cursor: pointer; user-select: none; transition: all 0.1s;
+        }
+        .d-pad:active { background: rgba(0, 216, 255, 0.3); color: white; transform: scale(0.95); }
+        .d-pad.up { width: 60px; margin: 0 auto; }
+        .d-pad.down { width: 60px; margin: 0 auto; }
+        .d-pad.left { width: 70px; }
+        .d-pad.right { width: 70px; }
+
+        .floating-mockup-wrapper {
+          position: relative; width: 100%; display: flex; justify-content: center; align-items: center;
+        }
+        .glow-behind-mockup {
+          position: absolute; width: 80%; height: 80%;
           background: radial-gradient(circle, rgba(0, 216, 255, 0.3) 0%, rgba(127, 0, 255, 0.1) 50%, transparent 70%);
-          filter: blur(40px);
-          animation: pulseGlow 4s ease-in-out infinite alternate;
-          z-index: 1;
+          filter: blur(40px); animation: pulseGlow 4s ease-in-out infinite alternate; z-index: 1; pointer-events: none;
         }
-
-        @keyframes float {
-          0% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(2deg); }
-          100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        @keyframes pulseGlow {
-          0% { opacity: 0.5; transform: scale(0.9); }
-          100% { opacity: 1; transform: scale(1.1); }
-        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes pulseGlow { 0% { opacity: 0.5; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.1); } }
 
         /* Timelines */
         .timeline-line {
