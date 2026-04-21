@@ -13,7 +13,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 type TimeDisplayProps = {
   timeZone: string;
-  locale?: string; // Optionally allow locale, defaulting to 'en-GB'
+  locale?: string;
 };
 
 const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
@@ -48,120 +48,108 @@ export const Header = () => {
   const [activeHash, setActiveHash] = useState("");
 
   useEffect(() => {
-    // Basic hash tracking for the active state
     const handleHashChange = () => setActiveHash(window.location.hash);
     window.addEventListener("hashchange", handleHashChange);
-    // Set initial
     setActiveHash(window.location.hash);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   return (
     <>
-      <Fade hide="s" fillWidth position="fixed" height="80" zIndex={9} />
+      <Fade hide="s" fillWidth position="fixed" height="80" zIndex={99} />
 
-      {/* Top Header Layer: Just Location & Time */}
       <Flex
         position="fixed"
         top="0"
         left="0"
         as="header"
-        zIndex={10}
+        zIndex={100}
         fillWidth
         padding="24"
         horizontal="space-between"
+        vertical="center"
       >
-        <Flex vertical="center" textVariant="body-default-s">
-          {display.location && <Flex hide="s">{person.location}</Flex>}
+        <Flex fillWidth vertical="center" textVariant="body-default-s" hide="s">
+          {display.location && <Flex>{person.location}</Flex>}
         </Flex>
-        <Flex horizontal="end" vertical="center" textVariant="body-default-s" gap="20">
+
+        <Flex fillWidth horizontal="center" gap="8" className="nav-group">
+          {routes["/#about"] && (
+            <button onClick={() => {
+              document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+              window.history.pushState(null, "", "#about");
+              setActiveHash("#about");
+            }} className={`nav-tab ${activeHash === "#about" ? "active" : ""}`}>
+              About
+            </button>
+          )}
+          {routes["/#experience"] && (
+            <button onClick={() => {
+              document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" });
+              window.history.pushState(null, "", "#experience");
+              setActiveHash("#experience");
+            }} className={`nav-tab ${activeHash === "#experience" ? "active" : ""}`}>
+              Experience
+            </button>
+          )}
+          {routes["/#projects"] && (
+            <button onClick={() => {
+              document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+              window.history.pushState(null, "", "#projects");
+              setActiveHash("#projects");
+            }} className={`nav-tab ${activeHash === "#projects" ? "active" : ""}`}>
+              Projects
+            </button>
+          )}
+        </Flex>
+
+        <Flex fillWidth horizontal="end" vertical="center" textVariant="body-default-s" gap="16">
           <Flex hide="s">{display.time && <TimeDisplay timeZone={person.timezone} />}</Flex>
+          {display.themeSwitcher && <ThemeToggle />}
         </Flex>
       </Flex>
 
-      {/* Floating Dock Navigation */}
-      <div className="floating-dock">
-        {routes["/#about"] && (
-          <Link href="/#about" className={`dock-item ${activeHash === "#about" ? "active" : ""}`}>
-            About
-          </Link>
-        )}
-        {routes["/#experience"] && (
-          <Link href="/#experience" className={`dock-item ${activeHash === "#experience" ? "active" : ""}`}>
-            Experience
-          </Link>
-        )}
-        {routes["/#projects"] && (
-          <Link href="/#projects" className={`dock-item ${activeHash === "#projects" ? "active" : ""}`}>
-            Projects
-          </Link>
-        )}
-        {display.themeSwitcher && (
-          <>
-            <div className="dock-divider" />
-            <div className="dock-item">
-              <ThemeToggle />
-            </div>
-          </>
-        )}
-      </div>
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        .floating-dock {
-          position: fixed;
-          bottom: 32px;
-          left: 50%;
-          transform: translateX(-50%);
+      <style dangerouslySetInnerHTML={{__html: `
+        .nav-group {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 8px;
+        }
+
+        .nav-tab {
           background: rgba(30, 30, 35, 0.4);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 100px;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-          z-index: 100;
-          transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .floating-dock:hover {
-          transform: translateX(-50%) translateY(-5px);
-          box-shadow: 0 25px 50px rgba(0, 216, 255, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-        }
-
-        .dock-item {
           color: rgba(255, 255, 255, 0.6);
-          text-decoration: none;
-          font-weight: 500;
-          font-size: 0.9rem;
-          padding: 10px 20px;
+          padding: 8px 20px;
           border-radius: 100px;
+          font-size: 0.85rem;
+          font-weight: 500;
+          cursor: pointer;
           transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          backdrop-filter: blur(10px);
         }
 
-        .dock-item:hover {
+        .nav-tab:hover {
           color: #fff;
           background: rgba(255, 255, 255, 0.1);
+          transform: translateY(-2px);
         }
 
-        .dock-item.active {
-          color: #000;
+        .nav-tab.active {
           background: #00d8ff;
-          box-shadow: 0 0 15px rgba(0, 216, 255, 0.5);
+          color: #000;
           font-weight: 700;
+          border-color: rgba(0, 216, 255, 0.5);
+          box-shadow: 0 5px 15px rgba(0, 216, 255, 0.3);
         }
 
-        .dock-divider {
-          width: 1px;
-          height: 24px;
-          background: rgba(255, 255, 255, 0.2);
-          margin: 0 4px;
+        @media (max-width: 768px) {
+           .nav-group {
+              gap: 6px;
+           }
+           .nav-tab {
+              padding: 6px 12px;
+              font-size: 0.8rem;
+           }
         }
       `}} />
     </>
