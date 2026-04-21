@@ -106,7 +106,8 @@ export const Header = () => {
         )}
       </div>
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .floating-dock {
           position: fixed;
           bottom: 32px;
