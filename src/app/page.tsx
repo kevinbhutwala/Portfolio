@@ -126,7 +126,7 @@ export default function Home() {
   useEffect(() => { setMounted(true); }, []);
 
   return (
-    <Column fillWidth horizontal="center" style={{ overflow: 'hidden' }}>
+    <Column fillWidth horizontal="center" style={{ overflowX: 'hidden' }}>
 
       {/* Immersive Hero Section */}
       <section style={{ position: 'relative', width: '100%', minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 5%' }}>
@@ -220,7 +220,7 @@ export default function Home() {
             <Heading as="h2" variant="display-strong-xs" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span className="section-dot" /> {about.technical.title}
             </Heading>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', width: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', width: '100%', padding: '16px' }}>
               {about.technical.skills.map((skill, index) => (
                 <Flex key={index} className="skill-card hover-card-3d" direction="column" gap="16">
                   <Heading as="h3" variant="heading-strong-m" style={{ color: index === 1 ? '#00d8ff' : '#fff' }}>
@@ -277,7 +277,7 @@ export default function Home() {
               <div className="project-badge">10 Apps Delivered</div>
             </Row>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', width: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', width: '100%', padding: '16px' }}>
               {projects.map((project, index) => (
                 <Flex
                   key={index}
