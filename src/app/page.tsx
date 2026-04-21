@@ -126,7 +126,7 @@ export default function Home() {
   useEffect(() => { setMounted(true); }, []);
 
   return (
-    <Column fillWidth horizontal="center" style={{ overflowX: 'hidden' }}>
+    <Column fillWidth horizontal="center">
 
       {/* Immersive Hero Section */}
       <section style={{ position: 'relative', width: '100%', minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 5%' }}>
