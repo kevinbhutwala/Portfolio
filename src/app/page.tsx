@@ -200,7 +200,7 @@ export default function Home() {
       </section>
 
       {/* Main Content Area */}
-      <Column maxWidth="m" fillWidth gap="xl" horizontal="center" style={{ position: 'relative', zIndex: 10, padding: '0 24px' }}>
+      <Column fillWidth gap="xl" horizontal="center" style={{ position: 'relative', zIndex: 10, padding: '0 5%', maxWidth: '1200px' }}>
 
         {/* About Section */}
         <RevealFx translateY="16" delay={0.2}>
