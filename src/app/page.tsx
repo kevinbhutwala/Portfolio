@@ -267,6 +267,36 @@ export default function Home() {
           </Column>
         </RevealFx>
 
+        {/* Education Section */}
+        {about.studies.display && (
+          <RevealFx translateY="16" delay={0.7}>
+            <Column id="education" fillWidth gap="32" paddingTop="64">
+              <Heading as="h2" variant="display-strong-xs" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span className="section-dot" /> {about.studies.title}
+              </Heading>
+              <Column gap="32" position="relative" paddingLeft="32" className="timeline-container">
+                <div className="timeline-line" />
+                {about.studies.institutions.map((study, index) => (
+                  <Flex key={index} direction="column" gap="8" position="relative" className="timeline-item">
+                    <div className="timeline-node" />
+                    <Row direction="column" gap="4">
+                      <Heading as="h3" variant="heading-strong-l">
+                        {study.name}
+                      </Heading>
+                    </Row>
+                    <Column gap="12" className="timeline-content">
+                      <Row gap="12">
+                        <Text style={{ color: '#7f00ff', fontSize: '1.2rem', lineHeight: 1 }}>▹</Text>
+                        <Text variant="body-default-l" onBackground="neutral-weak" style={{ lineHeight: 1.6 }}>{study.description}</Text>
+                      </Row>
+                    </Column>
+                  </Flex>
+                ))}
+              </Column>
+            </Column>
+          </RevealFx>
+        )}
+
         {/* Projects Section */}
         <RevealFx translateY="16" delay={0.8}>
           <Column id="projects" fillWidth gap="32" paddingTop="64" paddingBottom="128">
