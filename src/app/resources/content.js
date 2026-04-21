@@ -45,8 +45,8 @@ const home = {
   headline: <>Delivering high-performance mobile experiences</>,
   featured: {
     display: true,
-    title: <>Featured Project: <strong className="ml-4">Luminate App</strong></>,
-    href: "/#projects",
+    title: <>Featured: <strong className="ml-4">React Native AI Code Generator</strong></>,
+    href: "https://my-ai-red-five.vercel.app/",
   },
   subline: (
     <>
@@ -129,6 +129,14 @@ const about = {
 };
 
 const projects = [
+  {
+    title: "React Native AI Generator",
+    timeframe: "2026",
+    summary: "Built an AI-powered code generation tool. Upload any mobile UI design photo or enter a text prompt, and the AI instantly generates production-ready React Native code.",
+    images: [],
+    link: "https://my-ai-red-five.vercel.app/",
+    team: [],
+  },
   {
     title: "SUPERWORKS HRMS",
     timeframe: "2022 - Present",

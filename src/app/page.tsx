@@ -149,7 +149,7 @@ export default function Home() {
 
             {home.featured && (
               <RevealFx translateY="8" delay={0.1} fillWidth horizontal="start">
-                <Badge background="brand-alpha-weak" paddingX="16" paddingY="8" onBackground="brand-strong" textVariant="label-default-s" arrow={false} href="/#projects"
+                <Badge background="brand-alpha-weak" paddingX="16" paddingY="8" onBackground="brand-strong" textVariant="label-default-s" arrow={false} href={home.featured.href} target="_blank"
                   style={{ borderRadius: '100px', backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 216, 255, 0.2)' }}
                 >
                   <Row paddingY="2" gap="8" vertical="center">
