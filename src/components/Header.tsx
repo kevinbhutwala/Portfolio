@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Fade, Flex, Line, ToggleButton } from "@/once-ui/components";
@@ -81,19 +82,19 @@ export const Header = () => {
       {/* Floating Dock Navigation */}
       <div className="floating-dock">
         {routes["/#about"] && (
-          <a href="/#about" className={`dock-item ${activeHash === "#about" ? "active" : ""}`}>
+          <Link href="/#about" className={`dock-item ${activeHash === "#about" ? "active" : ""}`}>
             About
-          </a>
+          </Link>
         )}
         {routes["/#experience"] && (
-          <a href="/#experience" className={`dock-item ${activeHash === "#experience" ? "active" : ""}`}>
+          <Link href="/#experience" className={`dock-item ${activeHash === "#experience" ? "active" : ""}`}>
             Experience
-          </a>
+          </Link>
         )}
         {routes["/#projects"] && (
-          <a href="/#projects" className={`dock-item ${activeHash === "#projects" ? "active" : ""}`}>
+          <Link href="/#projects" className={`dock-item ${activeHash === "#projects" ? "active" : ""}`}>
             Projects
-          </a>
+          </Link>
         )}
         {display.themeSwitcher && (
           <>
