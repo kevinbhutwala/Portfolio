@@ -75,19 +75,21 @@ export const Header = () => {
 
   return (
     <>
-      <Fade hide="s" fillWidth position="fixed" height="80" zIndex={999} />
+      <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "80px", zIndex: 998, pointerEvents: "none", background: "linear-gradient(to bottom, var(--page-background) 0%, transparent 100%)" }} className="nav-fade" />
 
-      <Flex
-        position="fixed"
-        top="0"
-        left="0"
-        as="header"
-        zIndex={9999}
-        fillWidth
-        padding="24"
-        horizontal="space-between"
-        vertical="center"
-        style={{ pointerEvents: "none" }}
+      <header
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          padding: "24px 5%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          zIndex: 9999,
+          pointerEvents: "none"
+        }}
       >
         <Flex fillWidth vertical="center" textVariant="body-default-s" hide="s" style={{ pointerEvents: "auto" }}>
           {display.location && <Flex>{person.location}</Flex>}
@@ -127,7 +129,7 @@ export const Header = () => {
           <Flex hide="s">{display.time && <TimeDisplay timeZone={person.timezone} />}</Flex>
           {display.themeSwitcher && <ThemeToggle />}
         </Flex>
-      </Flex>
+      </header>
 
       <style dangerouslySetInnerHTML={{__html: `
         .nav-group {
